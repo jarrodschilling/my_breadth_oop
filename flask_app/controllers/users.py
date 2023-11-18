@@ -17,6 +17,7 @@ def register():
 
 @app.route('/register/new', methods=['POST'])
 def register_new():
+
     if not User.validate_reg(request.form):
         return redirect('/register')
     pw_hash = bcrypt.generate_password_hash(request.form.get('password'))

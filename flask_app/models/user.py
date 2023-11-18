@@ -30,6 +30,14 @@ class User:
             return False
         return cls(results[0])
     
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM users;"
+        results = connectToMySQL(cls.db).query_db(query)
+        users = []
+        for row in results:
+            users.append(cls(row))
+        return(users)
 
     @staticmethod
     def validate_reg(user):
@@ -57,6 +65,14 @@ class User:
             is_valid = False
         if any(char for char in user['password'] if not char.isalnum()) == False:
             flash("Passwords must contain a special character")
+            is_valid = False
+        # check to see if username already exists
+        users = User.get_all()
+        usernames = []
+        for row in users:
+            usernames.append(row.username)
+        if user['username'] in usernames:
+            flash("Username already exists")
             is_valid = False
 
         return is_valid

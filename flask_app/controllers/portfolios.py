@@ -8,4 +8,8 @@ from flask_app import app
 def home():
     if 'user_id' not in session:
         return redirect('/')
-    return render_template('portfolios.html')
+    data = {
+        'id': session['user_id']
+    }
+    portfolios = Portfolio.user_portfolios(data)
+    return render_template('portfolios.html', portfolios=portfolios)
