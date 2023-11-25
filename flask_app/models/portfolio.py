@@ -41,3 +41,22 @@ class Portfolio:
         query = """INSERT INTO portfolios (name, user_id, stock_id)
                 VALUES (%(name)s, %(user_id)s, %(stock_id)s);"""
         return connectToMySQL(cls.db).query_db(query, data)
+    
+    @classmethod
+    def check_name(cls, data):
+        query = """SELECT name FROM portfolios WHERE user_id = %(user_id)s;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        print(results)
+        names = []
+        for name in results:
+            names.append(name['name'])
+        return names
+        
+    @staticmethod
+    def validate_portfolio_data(data):
+        is_valid = True
+        if data['name'] in Portfolio.check_name(data):
+            flash('Portfolio Name already exists')
+            is_valid = False
+        
+        return is_valid

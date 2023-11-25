@@ -17,13 +17,27 @@ class Stock:
         return connectToMySQL(cls.db).query_db(query, data)
     
     @classmethod
-    def add_portfolio_stocks(cls, tickers):
-        for i in range(len(tickers)):
-            stock_name = api_call(tickers[i])
-            data = {
-                'name': stock_name,
-                'ticker': tickers[i]
-            }
-            query = """INSERT INTO stocks (name, ticker)
-                    VALUES (%(name)s, %(ticker)s);"""
-            results = connectToMySQL(cls.db).query_db(query, data)
+    def check_stock(cls, data):
+        query = """SELECT ticker FROM stocks;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        tickers = []
+        for ticker in results:
+            tickers.append(ticker['ticker'])
+        if data['ticker'] in tickers:
+            return Stock.grab_id(data)
+        else:
+            return Stock.add_stock(data)
+
+
+    @classmethod
+    def grab_id(cls, data):
+        query = """SELECT * FROM stocks WHERE ticker = %(ticker)s;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        if len(results) < 1:
+            return False
+        return cls(results[0]).id
+
+    @staticmethod
+    def validate_stock_data(data):
+        is_valid = True
+        pass
