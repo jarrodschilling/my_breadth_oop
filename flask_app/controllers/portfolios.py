@@ -27,8 +27,8 @@ def new_portfolio():
     for ticker in ticker_list:
         if len(ticker) > 0:
             tickers.append(ticker.upper())
-
-    stock_names = ['Nike', 'lululemon', 'Nordstroms']
+    print(tickers)
+    stock_names = ['JPMorgan', 'Coca Cola', 'MongoDB']
     stock_ids = []
     for i in range(len(tickers)):
         #API CALL where stock_name = APICALL(tickers[i])

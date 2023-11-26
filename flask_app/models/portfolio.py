@@ -19,9 +19,8 @@ class Portfolio:
     @classmethod
     def user_portfolios(cls, data):
         query = """SELECT * FROM portfolios
-                LEFT JOIN users ON users.id = portfolios.user_id
                 LEFT JOIN stocks ON stocks.id = portfolios.stock_id
-                WHERE users.id = %(id)s;"""
+                WHERE user_id = %(id)s;"""
         results = connectToMySQL(cls.db).query_db(query, data)
         print(results)
         portfolios = []
@@ -46,7 +45,6 @@ class Portfolio:
     def check_name(cls, data):
         query = """SELECT name FROM portfolios WHERE user_id = %(user_id)s;"""
         results = connectToMySQL(cls.db).query_db(query, data)
-        print(results)
         names = []
         for name in results:
             names.append(name['name'])
