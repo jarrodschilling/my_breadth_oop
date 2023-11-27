@@ -1,4 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
+import yfinance as yf
 
 class Stock:
     db = "my_breadth_schema"
@@ -36,6 +38,16 @@ class Stock:
         if len(results) < 1:
             return False
         return cls(results[0]).id
+
+    @staticmethod
+    def symbol_check(data):
+        ticker_data = yf.download(data)
+        if ticker_data.empty:
+            return False
+        else:
+            name = yf.Ticker(data)
+            output = name.info['shortName']
+            return output
 
     @staticmethod
     def validate_stock_data(data):

@@ -4,7 +4,8 @@ from flask_app.models.portfolio import Portfolio
 from flask_app.models.stock import Stock
 from flask_app.models.portfolios_stocks import PortfoliosStocks
 from flask_app import app
-from flask_app.static.data.data import stocks as api_call
+from flask_app.static.data import helpers
+from flask import flash
 
 
 @app.route('/portfolios')
@@ -27,12 +28,13 @@ def new_portfolio():
     tickers = []
     for ticker in ticker_list:
         if len(ticker) > 0:
-            tickers.append(ticker.upper())
-    stock_names = ['Palantir', 'Coca Cola', 'SharkNinja']
+            if helpers.symbol_check(ticker) != False:
+                tickers.append(ticker.upper())
+            else:
+                flash(f"{ticker} is not a valid ticker symbol")
+    stock_names = helpers.symbol_name(tickers)
     stock_ids = []
     for i in range(len(tickers)):
-        #API CALL where stock_name = APICALL(tickers[i])
-        # stock_name = stock_names[i]
 
         stock_data = {
             'name': stock_names[i],

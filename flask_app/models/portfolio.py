@@ -31,7 +31,7 @@ class Portfolio:
                 VALUES (%(name)s, %(user_id)s);"""
         return connectToMySQL(cls.db).query_db(query, data)
     
-    
+
     @classmethod
     def check_name(cls, data):
         query = """SELECT name FROM portfolios WHERE user_id = %(user_id)s;"""
