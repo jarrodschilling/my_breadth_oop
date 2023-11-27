@@ -1,4 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask_app.models import stock
 from flask import flash
 
 
@@ -10,18 +11,40 @@ class Portfolio:
         self.user_id = data['user_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.stocks = []
 
 
 
     @classmethod
     def user_portfolios(cls, data):
         query = """SELECT * FROM portfolios
-                WHERE user_id = %(id)s;"""
+                LEFT JOIN portfolios_stocks 
+                ON portfolios_stocks.portfolio_id = portfolios.id
+                LEFT JOIN stocks 
+                ON stocks.id = portfolios_stocks.stock_id 
+                WHERE portfolios.user_id = %(user_id)s;"""
         results = connectToMySQL(cls.db).query_db(query, data)
-        portfolios = []
+        portfolios = {}
         for row in results:
-            portfolios.append(cls(row))
-        # print(portfolios)
+            portfolio_id = row['portfolio_id']
+
+            if portfolio_id not in portfolios:
+                portfolios[portfolio_id] = cls(row)
+            
+            stock_data = {
+                'id': row['stocks.id'],
+                'name': row['stocks.name'],
+                'ticker': row['ticker'],
+                'created_at': row['stocks.created_at'],
+                'updated_at': row['stocks.updated_at']
+            }
+
+            portfolios[portfolio_id].stocks.append(stock_data)
+
+        for value in portfolios.values():
+            for i in range(len(value.stocks)):
+                print(value.stocks[i]['name'])
+        print(portfolios[7].stocks[0]['name'])
         return portfolios
     
 
@@ -41,6 +64,13 @@ class Portfolio:
             names.append(name['name'])
         return names
         
+    @classmethod
+    def too_many_portfolios(cls, data):
+        query = """SELECT name FROM portfolios WHERE user_id = %(user_id)s GROUP BY name;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        if len(results) >= 3:
+            return True
+    
     @staticmethod
     def validate_portfolio_data(data):
         is_valid = True

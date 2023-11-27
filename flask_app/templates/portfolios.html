@@ -6,15 +6,15 @@
 
 {% block main %}
     <h1 style="text-align: center;">Current Portfolios</h1>
-    {% with messages = get_flashed_messages() %}
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
-                <p><strong>{{message}}</strong></p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <div class="container">
-
+                    <p class="js-center"><strong>{{message}}</strong></p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <div class="row">
             {% if not portfolio1_name == false %}
             <div class="col-md-4">

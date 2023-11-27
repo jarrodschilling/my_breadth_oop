@@ -13,13 +13,19 @@ def home():
     if 'user_id' not in session:
         return redirect('/')
     data = {
-        'id': session['user_id']
+        'user_id': session['user_id']
     }
     portfolios = Portfolio.user_portfolios(data)
     return render_template('portfolios.html', portfolios=portfolios)
 
 @app.route('/portfolios/new')
 def new_portfolio_page():
+    data = {
+        'user_id': session['user_id']
+    }
+    if Portfolio.too_many_portfolios(data) == True:
+        flash("You already have three portfolios, please delete one to add another")
+        return redirect('/portfolios')
     return render_template('create-portfolio.html')
 
 @app.route('/portfolios/new', methods=['POST'])
@@ -30,8 +36,7 @@ def new_portfolio():
         if len(ticker) > 0:
             if helpers.symbol_check(ticker) != False:
                 tickers.append(ticker.upper())
-            else:
-                flash(f"{ticker} is not a valid ticker symbol")
+
     stock_names = helpers.symbol_name(tickers)
     stock_ids = []
     for i in range(len(tickers)):
