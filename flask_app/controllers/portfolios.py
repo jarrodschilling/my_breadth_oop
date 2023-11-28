@@ -30,38 +30,15 @@ def new_portfolio_page():
 
 @app.route('/portfolios/new', methods=['POST'])
 def new_portfolio():
-    ticker_list = request.form.getlist('tickers[]')
-    tickers = []
-    for ticker in ticker_list:
-        if len(ticker) > 0:
-            if helpers.symbol_check(ticker) != False:
-                tickers.append(ticker.upper())
-
+    tickers = Stock.clean_symbols(request.form.getlist('tickers[]'))
     stock_names = helpers.symbol_name(tickers)
-    stock_ids = []
-    for i in range(len(tickers)):
+    stock_ids = Stock.get_stock_ids(tickers, stock_names)
 
-        stock_data = {
-            'name': stock_names[i],
-            'ticker': tickers[i]
-        }
-        stock_id = Stock.check_stock(stock_data)
-        stock_ids.append(stock_id)
-
-    name_data = {
-        'name': request.form['portfolio_name'],
-        'user_id': session['user_id']
-    }
-    validate_portfolio_data = Portfolio.validate_portfolio_data(name_data)
+    validate_portfolio_data = Portfolio.validate_portfolio_data(request.form)
     if validate_portfolio_data == False:
         return redirect('/portfolios/new')
     
-    portfolio_data = {
-    'name': request.form['portfolio_name'],
-    'user_id': session['user_id'],
-    }
-    
-    new_portfolio_id = Portfolio.save(portfolio_data)
+    new_portfolio_id = Portfolio.save(request.form)
     
     for i in range(len(stock_ids)):
         join_data = {

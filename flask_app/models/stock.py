@@ -1,6 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
-import yfinance as yf
+from flask_app.static.data import helpers
+
 
 class Stock:
     db = "my_breadth_schema"
@@ -40,16 +41,26 @@ class Stock:
         return cls(results[0]).id
 
     @staticmethod
-    def symbol_check(data):
-        ticker_data = yf.download(data)
-        if ticker_data.empty:
-            return False
-        else:
-            name = yf.Ticker(data)
-            output = name.info['shortName']
-            return output
-
+    def clean_symbols(data):
+        ticker_list = data
+        tickers = []
+        for ticker in ticker_list:
+            if len(ticker) > 0:
+                if helpers.symbol_check(ticker) != False:
+                    tickers.append(ticker.upper())
+        
+        return tickers
+    
     @staticmethod
-    def validate_stock_data(data):
-        is_valid = True
-        pass
+    def get_stock_ids(tickers, stock_names):
+        stock_ids = []
+        for i in range(len(tickers)):
+            stock_data = {
+                'name': stock_names[i],
+                'ticker': tickers[i]
+            }
+            
+            stock_id = Stock.check_stock(stock_data)
+            stock_ids.append(stock_id)
+
+        return stock_ids

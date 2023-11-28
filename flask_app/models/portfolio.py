@@ -1,6 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask import Flask, session, flash
 from flask_app.models import stock
-from flask import flash
 
 
 class Portfolio:
@@ -44,15 +44,19 @@ class Portfolio:
         for value in portfolios.values():
             for i in range(len(value.stocks)):
                 print(value.stocks[i]['name'])
-        print(portfolios[7].stocks[0]['name'])
+
         return portfolios
     
 
     @classmethod
     def save(cls, data):
+        portfolio_data = {
+            'name': data['portfolio_name'],
+            'user_id': session['user_id']
+        }
         query = """INSERT INTO portfolios (name, user_id)
                 VALUES (%(name)s, %(user_id)s);"""
-        return connectToMySQL(cls.db).query_db(query, data)
+        return connectToMySQL(cls.db).query_db(query, portfolio_data)
     
 
     @classmethod
@@ -73,8 +77,12 @@ class Portfolio:
     
     @staticmethod
     def validate_portfolio_data(data):
+        name_data = {
+            'name': data['portfolio_name'],
+            'user_id': session['user_id']
+        }
         is_valid = True
-        if data['name'] in Portfolio.check_name(data):
+        if name_data['name'] in Portfolio.check_name(name_data):
             flash('Portfolio Name already exists')
             is_valid = False
         
