@@ -31,14 +31,20 @@ def new_portfolio_page():
 
 @app.route('/portfolios/new', methods=['POST'])
 def new_portfolio():
-    #Combine tickers and stock_names with one API CALL
-    tickers = Stock.clean_symbols(request.form.getlist('tickers[]'))
-    stock_names = helpers.symbol_name(tickers)
-    stock_ids = Stock.get_stock_ids(tickers, stock_names)
-
+    #Before calling API, make sure Portfolio name isn't empty and isn't a copy
     validate_portfolio_data = Portfolio.validate_portfolio_data(request.form)
     if validate_portfolio_data == False:
         return redirect('/portfolios/new')
+    
+    #Combine tickers and stock_names with one API CALL????
+    tickers = Stock.clean_symbols(request.form.getlist('tickers[]'))
+    if not tickers:
+        flash('New Portfolio cannot be empty')
+        return redirect('/portfolios/new')
+    stock_names = helpers.symbol_name(tickers)
+    stock_ids = Stock.get_stock_ids(tickers, stock_names)
+
+
     
     new_portfolio_id = Portfolio.save(request.form)
     

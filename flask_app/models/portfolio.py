@@ -47,9 +47,9 @@ class Portfolio:
         #         print(value.stocks[i]['ticker'])
         for value in portfolios.values():
             portfolios_list.append(value)
-        print(portfolios_list[1])
-        for i in range(len(portfolios_list[1].stocks)):
-            print(portfolios_list[1].stocks[i]['name'])
+        print(portfolios_list)
+        # for i in range(len(portfolios_list[1].stocks)):
+        #     print(portfolios_list[1].stocks[i]['name'])
 
         return portfolios_list
     
@@ -88,8 +88,11 @@ class Portfolio:
             'user_id': session['user_id']
         }
         is_valid = True
+        if not name_data['name']:
+            flash('Portfolio name cannot be blank')
+            is_valid = False
         if name_data['name'] in Portfolio.check_name(name_data):
-            flash('Portfolio Name already exists')
+            flash('Portfolio name already exists')
             is_valid = False
         
         return is_valid
