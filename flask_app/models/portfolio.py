@@ -41,11 +41,17 @@ class Portfolio:
 
             portfolios[portfolio_id].stocks.append(stock_data)
 
+        portfolios_list = []
+        # for value in portfolios.values():
+        #     for i in range(len(value.stocks)):
+        #         print(value.stocks[i]['ticker'])
         for value in portfolios.values():
-            for i in range(len(value.stocks)):
-                print(value.stocks[i]['name'])
+            portfolios_list.append(value)
+        print(portfolios_list[1])
+        for i in range(len(portfolios_list[1].stocks)):
+            print(portfolios_list[1].stocks[i]['name'])
 
-        return portfolios
+        return portfolios_list
     
 
     @classmethod

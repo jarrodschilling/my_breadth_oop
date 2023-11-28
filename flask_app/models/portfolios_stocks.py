@@ -12,6 +12,18 @@ class PortfoliosStocks:
 
     
     @classmethod
+    def save_test(cls, portfolio_id, stock_ids):
+        for i in range(len(stock_ids)):
+            data = {
+                "portfolio_id":  portfolio_id,
+                "stock_id": stock_ids[i]
+            }
+            query = """INSERT INTO portfolios_stocks (portfolio_id, stock_id)
+                    VALUES (%(portfolio_id)s, %(stock_id)s);"""
+            results = connectToMySQL(cls.db).query_db(query, data)
+        pass
+        
+    @classmethod
     def save(cls, data):
         query = """INSERT INTO portfolios_stocks (portfolio_id, stock_id)
                 VALUES (%(portfolio_id)s, %(stock_id)s);"""

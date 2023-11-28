@@ -16,6 +16,7 @@ def home():
         'user_id': session['user_id']
     }
     portfolios = Portfolio.user_portfolios(data)
+    print(portfolios)
     return render_template('portfolios.html', portfolios=portfolios)
 
 @app.route('/portfolios/new')
@@ -30,6 +31,7 @@ def new_portfolio_page():
 
 @app.route('/portfolios/new', methods=['POST'])
 def new_portfolio():
+    #Combine tickers and stock_names with one API CALL
     tickers = Stock.clean_symbols(request.form.getlist('tickers[]'))
     stock_names = helpers.symbol_name(tickers)
     stock_ids = Stock.get_stock_ids(tickers, stock_names)
@@ -40,13 +42,14 @@ def new_portfolio():
     
     new_portfolio_id = Portfolio.save(request.form)
     
-    for i in range(len(stock_ids)):
-        join_data = {
-            'portfolio_id': new_portfolio_id,
-            'stock_id': stock_ids[i]
-        }
-        new_join = PortfoliosStocks.save(join_data)
+    # for i in range(len(stock_ids)):
+    #     join_data = {
+    #         'portfolio_id': new_portfolio_id,
+    #         'stock_id': stock_ids[i]
+    #     }
+    #     new_join = PortfoliosStocks.save(join_data)
 
+    new_join = PortfoliosStocks.save_test(new_portfolio_id, stock_ids)
 
 
     # GET ONE portfolio id, hardcode it to the data and THEN loop through the stock_ids
