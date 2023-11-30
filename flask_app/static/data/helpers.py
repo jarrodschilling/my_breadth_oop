@@ -82,5 +82,30 @@ def sma(data, sma_period, date):
 
 
 # --------------------------------- Get data for frontend display---------------------
-def ma_compute_yf(portfolios, ma_avg, date):
-    pass
+def ma_compute_yf(stocks, ma_avg, date):
+    stock_tickers = []
+    stock_names = []
+
+    symbols_to_fetch = set(stock['ticker'] for stock in stocks)
+
+    data = batch_api_call(symbols_to_fetch)
+
+    for stock in stocks:
+        stock_name = stock['name']
+        stock_ticker = stock['ticker']
+        current = current_price(data[stock_ticker], date)
+        ema20 = ema(data[stock_ticker], 20, date)
+        sma50 = sma(data[stock_ticker], 50, date)
+        sma200 = sma(data[stock_ticker], 200, date)
+
+        if (ma_avg == "ema20") and current > ema20 and ema20 > sma50 and sma50 > sma200:
+            stock_tickers.append(stock_ticker)
+            stock_names.append(stock_name)
+        elif (ma_avg == "sma50") and current > sma50 and sma50 > sma200:
+            stock_tickers.append(stock_ticker)
+            stock_names.append(stock_name)
+        elif (ma_avg == "sma200") and current > sma200:
+            stock_tickers.append(stock_ticker)
+            stock_names.append(stock_name)
+    
+    return stock_tickers

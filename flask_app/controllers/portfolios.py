@@ -16,7 +16,7 @@ def home():
         'user_id': session['user_id']
     }
     portfolios = Portfolio.user_portfolios(data)
-    print(portfolios)
+
     return render_template('portfolios.html', portfolios=portfolios)
 
 @app.route('/portfolios/new')
@@ -57,3 +57,20 @@ def new_portfolio():
 
     
     return redirect('/portfolios')
+
+
+@app.route('/portfolios/detail')
+def breadth_detail():
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    data = {
+        'user_id': session['user_id']
+    }
+    portfolios = Portfolio.user_portfolios(data)
+    # print(portfolios[0].stocks[1]['name'])
+    #for port in ports iterate with f string to change variable name and port index[]
+    portfolio_one_200 = helpers.ma_compute_yf(portfolios[0].stocks, 'sma200', 'today')
+    print(portfolio_one_200)
+
+    return render_template('breadth-detail.html')

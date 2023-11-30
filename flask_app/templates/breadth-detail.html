@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block main %}
+<h1 style="text-align: center;">Breadth Detail</h1>
+
+<div class="container">
+    <div class="row">
+        {% if portfolios|length > 0 %}
+        <div class="col-md-4">
+            <div class="text-center">
+                <a href="/add-portfolio/1" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Add</a>
+                <a href="/delete-portfolio/1" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Delete</a>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ portfolios[0].name }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(portfolios[0].stocks|length) %}
+                    <tr>
+                        <td>
+                            ({{ portfolios[0].stocks[i]['ticker'] }}) {{ portfolios[0].stocks[i]['name'] }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if portfolios|length > 1 %}
+        <div class="col-md-4">
+            <div class="text-center">
+                <a href="/add-portfolio/2" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Add</a>
+                <a href="/delete-portfolio/2" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Delete</a>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ portfolios[1].name }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(portfolios[1].stocks|length) %}
+                    <tr>
+                        <td>
+                            ({{ portfolios[1].stocks[i]['ticker'] }}) {{ portfolios[1].stocks[i]['name'] }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if portfolios|length > 2 %}
+        <div class="col-md-4">
+            <div class="text-center">
+                <a href="/add-portfolio/3" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Add</a>
+                <a href="/delete-portfolio/3" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Delete</a>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ portfolios[2].name }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(portfolios[2].stocks|length) %}
+                    <tr>
+                        <td>
+                            ({{ portfolios[2].stocks[i]['ticker'] }}) {{ portfolios[2].stocks[i]['name'] }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
