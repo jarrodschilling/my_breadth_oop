@@ -44,8 +44,6 @@ def new_portfolio():
     stock_names = helpers.symbol_name(tickers)
     stock_ids = Stock.get_stock_ids(tickers, stock_names)
 
-
-    
     new_portfolio_id = Portfolio.save(request.form)
     
     # for i in range(len(stock_ids)):
@@ -56,10 +54,6 @@ def new_portfolio():
     #     new_join = PortfoliosStocks.save(join_data)
 
     new_join = PortfoliosStocks.save_test(new_portfolio_id, stock_ids)
-
-
-    # GET ONE portfolio id, hardcode it to the data and THEN loop through the stock_ids
-    # to Query the portfolios_stocks table
 
     
     return redirect('/portfolios')

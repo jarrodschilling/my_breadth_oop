@@ -1,0 +1,13 @@
+Adding a stock to a portfolio
+
+Clean data
+Validate that the symbol isn't empty
+Check DB to see if stock ticker is there, IF it is, return ID and use to build Portfolio
+
+IF NOT IN DB
+Call API
+Check that ticker is real and exists
+If it does, return 'shortName'
+Add the stock ticker and name to the database and return the ID and use to build Portfolio
+
+IF ticker not real, don't store stock and return an error to the user

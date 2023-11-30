@@ -64,3 +64,4 @@ class Stock:
             stock_ids.append(stock_id)
 
         return stock_ids
+    
