@@ -31,6 +31,16 @@ class Stock:
         else:
             return Stock.add_stock(data)
 
+    @classmethod
+    def get_stock_by_ticker(cls, data):
+        stock_data = {
+            'ticker': data
+        }
+        query = """SELECT * FROM stocks WHERE ticker = %(ticker)s;"""
+        results = connectToMySQL(cls.db).query_db(query, stock_data)
+        if not results:
+            return False
+        return cls(results[0])
 
     @classmethod
     def grab_id(cls, data):

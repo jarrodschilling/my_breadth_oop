@@ -21,7 +21,7 @@
                     {% for stock in port_list[0] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -36,10 +36,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[3] %}
+                    {% for stock in port_list[4] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -54,10 +54,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[6] %}
+                    {% for stock in port_list[8] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -78,7 +78,7 @@
                     {% for stock in port_list[1] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -93,10 +93,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[4] %}
+                    {% for stock in port_list[5] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -111,10 +111,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[7] %}
+                    {% for stock in port_list[9] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -135,7 +135,7 @@
                     {% for stock in port_list[2] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -150,10 +150,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[5] %}
+                    {% for stock in port_list[6] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -168,10 +168,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[8] %}
+                    {% for stock in port_list[10] %}
                     <tr>
                         <td>
-                            ({{ stock }}) stock name
+                            ({{ stock.ticker }}) {{stock.name}}
                         </td>
                     </tr>
                     {% endfor %}
@@ -179,6 +179,62 @@
             </table>
         </div>
     </div>
-
+    <!-- BELOW 200 SMA////////////////////////////////////////////////////////////////// -->
+    <div class="row">
+        <div class="col-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ portfolios[0].name }} - BELOW 200SMA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in port_list[3] %}
+                    <tr>
+                        <td>
+                            ({{ stock.ticker }}) {{stock.name}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ portfolios[1].name }} - BELOW 200SMA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in port_list[7] %}
+                    <tr>
+                        <td>
+                            ({{ stock.ticker }}) {{stock.name}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ portfolios[2].name }} - BELOW 200SMA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in port_list[11] %}
+                    <tr>
+                        <td>
+                            ({{ stock.ticker }}) {{stock.name}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 {% endblock %}

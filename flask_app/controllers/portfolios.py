@@ -70,25 +70,10 @@ def breadth_detail():
     portfolios = Portfolio.user_portfolios(data)
 
     port_list = []
-    portfolio_one_20 = helpers.ma_compute_yf(portfolios[0].stocks, 'ema20', 'today')
-    port_list.append(portfolio_one_20)
-    portfolio_one_50 = helpers.ma_compute_yf(portfolios[0].stocks, 'sma50', 'today')
-    port_list.append(portfolio_one_50)
-    portfolio_one_200 = helpers.ma_compute_yf(portfolios[0].stocks, 'sma200', 'today')
-    port_list.append(portfolio_one_200)
-    portfolio_two_20 = helpers.ma_compute_yf(portfolios[1].stocks, 'ema20', 'today')
-    port_list.append(portfolio_two_20)
-    portfolio_two_50 = helpers.ma_compute_yf(portfolios[1].stocks, 'sma50', 'today')
-    port_list.append(portfolio_two_50)
-    portfolio_two_200 = helpers.ma_compute_yf(portfolios[1].stocks, 'sma200', 'today')
-    port_list.append(portfolio_two_200)
-    portfolio_three_20 = helpers.ma_compute_yf(portfolios[2].stocks, 'ema20', 'today')
-    port_list.append(portfolio_three_20)
-    portfolio_three_50 = helpers.ma_compute_yf(portfolios[2].stocks, 'sma50', 'today')
-    port_list.append(portfolio_three_50)
-    portfolio_three_200 = helpers.ma_compute_yf(portfolios[2].stocks, 'sma200', 'today')
-    port_list.append(portfolio_three_200)
-
-    print(port_list)
+    for port in portfolios:
+        port_list.append(helpers.ma_compute_yf(port.stocks, 'ema20', 'today'))
+        port_list.append(helpers.ma_compute_yf(port.stocks, 'sma50', 'today'))
+        port_list.append(helpers.ma_compute_yf(port.stocks, 'sma200', 'today'))
+        port_list.append(helpers.ma_compute_yf(port.stocks, 'below', 'today'))
 
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)

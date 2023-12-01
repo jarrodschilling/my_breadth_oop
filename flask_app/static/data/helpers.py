@@ -2,6 +2,7 @@ import yfinance as yf
 from flask import flash
 from datetime import datetime, timedelta
 import datetime
+from flask_app.models import stock as stk
 
 
 # -------------------------- Preparing stocks for database------------------------------
@@ -83,8 +84,7 @@ def sma(data, sma_period, date):
 
 # --------------------------------- Get data for frontend display---------------------
 def ma_compute_yf(stocks, ma_avg, date):
-    stock_tickers = []
-    stock_names = []
+    stocks_list = []
 
     symbols_to_fetch = set(stock['ticker'] for stock in stocks)
 
@@ -99,13 +99,16 @@ def ma_compute_yf(stocks, ma_avg, date):
         sma200 = sma(data[stock_ticker], 200, date)
 
         if (ma_avg == "ema20") and current > ema20 and ema20 > sma50 and sma50 > sma200:
-            stock_tickers.append(stock_ticker)
-            stock_names.append(stock_name)
+            stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
+
         elif (ma_avg == "sma50") and current > sma50 and sma50 > sma200:
-            stock_tickers.append(stock_ticker)
-            stock_names.append(stock_name)
+            stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
+
         elif (ma_avg == "sma200") and current > sma200:
-            stock_tickers.append(stock_ticker)
-            stock_names.append(stock_name)
+            stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
+
+        elif (ma_avg == "below") and current < sma200:
+            stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
     
-    return stock_tickers
+
+    return stocks_list
