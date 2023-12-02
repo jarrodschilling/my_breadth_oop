@@ -68,6 +68,10 @@ def breadth_detail():
         'user_id': session['user_id']
     }
     portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
 
     port_list = []
     for port in portfolios:
