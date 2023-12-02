@@ -74,10 +74,37 @@ def breadth_detail():
         return redirect('/portfolios')
 
     port_list = []
+    # for port in portfolios:
+    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'ema20', 'today'))
+    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'sma50', 'today'))
+    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'sma200', 'today'))
+    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'below', 'today'))
+
     for port in portfolios:
-        port_list.append(helpers.ma_compute_yf(port.stocks, 'ema20', 'today'))
-        port_list.append(helpers.ma_compute_yf(port.stocks, 'sma50', 'today'))
-        port_list.append(helpers.ma_compute_yf(port.stocks, 'sma200', 'today'))
-        port_list.append(helpers.ma_compute_yf(port.stocks, 'below', 'today'))
+        port_list.append(helpers.ma_compute_test(port.stocks, 'today'))
 
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
+
+
+app.route('/portfolios/summary')
+def breadth_summary():
+    pass
+
+
+
+# These will require user login but ANYONE logged in can see them all
+@app.route('/core/sectors/summary')
+def core_sector_summary():
+    pass
+
+@app.route('/core/sectors/detail')
+def core_sector_detail():
+    pass
+
+@app.route('/core/indices/summary')
+def core_index_summary():
+    pass
+
+@app.route('/core/indices/detail')
+def core_index_detail():
+    pass

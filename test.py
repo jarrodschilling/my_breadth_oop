@@ -16,4 +16,4 @@ for ticker in tickers:
         'name': name,
         'ticker': ticker
     }
-    print(data)
+    save_stock = Stock.add_stock(data)

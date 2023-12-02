@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[0] %}
+                    {% for stock in port_list[0]['ema20'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -39,7 +39,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[4] %}
+                    {% for stock in port_list[1]['ema20'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -61,7 +61,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[8] %}
+                    {% for stock in port_list[2]['ema20'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -83,7 +83,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[1] %}
+                    {% for stock in port_list[0]['sma50'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -104,7 +104,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[5] %}
+                    {% for stock in port_list[1]['sma50'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -126,7 +126,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[9] %}
+                    {% for stock in port_list[2]['sma50'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -148,7 +148,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[2] %}
+                    {% for stock in port_list[0]['sma200'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -169,7 +169,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[6] %}
+                    {% for stock in port_list[1]['sma200'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -191,7 +191,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[10] %}
+                    {% for stock in port_list[2]['sma200'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -213,7 +213,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[3] %}
+                    {% for stock in port_list[0]['under'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -234,7 +234,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[7] %}
+                    {% for stock in port_list[1]['under'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
@@ -256,7 +256,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in port_list[11] %}
+                    {% for stock in port_list[2]['under'] %}
                     <tr>
                         <td>
                             ({{ stock.ticker }}) {{stock.name}}
