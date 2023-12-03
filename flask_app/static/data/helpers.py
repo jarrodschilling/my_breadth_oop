@@ -138,18 +138,37 @@ def breadth_summary_portfolios(portfolios):
     return port_list
 
 def breadth_summary_total(portfolios):
+    # Create dictionary containing the stocks in each portfolio for each category
     summary_percent = {}
     for i in range(0, len(portfolios)):
-        stocks_above = ma_compute_test(i.stocks, 'today')
-        
+        stocks_above = ma_compute_test(portfolios[i].stocks, 'today')
         summary_percent[f'port{i}_ema20'] = stocks_above['ema20']
         summary_percent[f'port{i}_sma50'] = stocks_above['sma50']
-    print('start')
-    print(summary_percent)
-    print('end')
-    return True
+        summary_percent[f'port{i}_sma200'] = stocks_above['sma200']
+        summary_percent[f'port{i}_under'] = stocks_above['under']
+    
+    # Get combined number of stocks from all portfolios
+    total_stock_count = len(portfolios[0].stocks) + len(portfolios[1].stocks) + len(portfolios[2].stocks)
+    
+    # Create a dictionary that has the total(all 3 portfolios) number of stocks for each categroy
+    summary_total = {}
+    summary_total['ema20'] = 0
+    summary_total['sma50'] = 0
+    summary_total['sma200'] = 0
+    summary_total['under'] = 0
+    for i in range(0, len(portfolios)):
+        summary_total['ema20'] += len(summary_percent[f'port{i}_ema20'])
+        summary_total['sma50'] += len(summary_percent[f'port{i}_sma50'])
+        summary_total['sma200'] += len(summary_percent[f'port{i}_sma200'])
+        summary_total['under'] += len(summary_percent[f'port{i}_under'])
 
+    # Divide each category by total amount of stocks in all the portfolios and format for frontend
+    summary_total['ema20'] = "{:.2f}%".format(100 * (summary_total['ema20'] / total_stock_count))
+    summary_total['sma50'] = "{:.2f}%".format(100 * (summary_total['sma50'] / total_stock_count))
+    summary_total['sma200'] = "{:.2f}%".format(100 * (summary_total['sma200'] / total_stock_count))
+    summary_total['under'] = "{:.2f}%".format(100 * (summary_total['under'] / total_stock_count))
 
+    return summary_total
 
 # def ma_compute_yf(stocks, ma_avg, date):
 #     stocks_list = []

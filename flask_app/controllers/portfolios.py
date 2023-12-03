@@ -93,10 +93,10 @@ def summary():
     # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
     port_list = helpers.breadth_summary_portfolios(portfolios)
 
-    # summary_total = helpers.breadth_summary_total(portfolios)
+    summary_total = helpers.breadth_summary_total(portfolios)
 
     #NEED TO THINK THROUGH HOW TO ADD A TOTAL ROW
-    return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list)
+    return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
 
 
 
