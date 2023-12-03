@@ -90,16 +90,10 @@ def summary():
     if not portfolios:
         flash("Please create a portfolio to view detail")
         return redirect('/portfolios')
+    # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
+    port_list = helpers.breadth_summary_portfolios(portfolios)
 
-    port_list = []
-    for port in portfolios:
-        stocks_above = (helpers.ma_compute_test(port.stocks, 'today'))
-        summary_percent = {}
-        summary_percent['ema20'] = "{:.2f}%".format(100 * (len(stocks_above['ema20']) / len(port.stocks)))
-        summary_percent['sma50'] = "{:.2f}%".format(100 * (len(stocks_above['sma50']) / len(port.stocks)))
-        summary_percent['sma200'] = "{:.2f}%".format(100 * (len(stocks_above['sma200']) / len(port.stocks)))
-        summary_percent['under'] = "{:.2f}%".format(100 * (len(stocks_above['under']) / len(port.stocks)))
-        port_list.append(summary_percent)
+    # summary_total = helpers.breadth_summary_total(portfolios)
 
     #NEED TO THINK THROUGH HOW TO ADD A TOTAL ROW
     return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list)

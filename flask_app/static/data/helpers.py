@@ -123,6 +123,33 @@ def ma_compute_test(stocks, date):
     return stocks_lists
 
 
+# Create list of dictionaries for the Breadth Summary Page
+def breadth_summary_portfolios(portfolios):
+    port_list = []
+    for port in portfolios:
+        stocks_above = (ma_compute_test(port.stocks, 'today'))
+        summary_percent = {}
+        summary_percent['ema20'] = "{:.2f}%".format(100 * (len(stocks_above['ema20']) / len(port.stocks)))
+        summary_percent['sma50'] = "{:.2f}%".format(100 * (len(stocks_above['sma50']) / len(port.stocks)))
+        summary_percent['sma200'] = "{:.2f}%".format(100 * (len(stocks_above['sma200']) / len(port.stocks)))
+        summary_percent['under'] = "{:.2f}%".format(100 * (len(stocks_above['under']) / len(port.stocks)))
+        port_list.append(summary_percent)
+
+    return port_list
+
+def breadth_summary_total(portfolios):
+    summary_percent = {}
+    for i in range(0, len(portfolios)):
+        stocks_above = ma_compute_test(i.stocks, 'today')
+        
+        summary_percent[f'port{i}_ema20'] = stocks_above['ema20']
+        summary_percent[f'port{i}_sma50'] = stocks_above['sma50']
+    print('start')
+    print(summary_percent)
+    print('end')
+    return True
+
+
 
 # def ma_compute_yf(stocks, ma_avg, date):
 #     stocks_list = []
