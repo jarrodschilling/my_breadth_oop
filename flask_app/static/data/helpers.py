@@ -47,7 +47,7 @@ def api_data_call(symbol):
     end_date = tomorrow.strftime('%Y-%m-%d')
 
     data = yf.download(symbol, start_date, end_date)
-
+    data_cache[symbol] = data
     return data
 
 # ------------------------------------- Moving Averages Calculations ------------------
@@ -83,36 +83,6 @@ def sma(data, sma_period, date):
 
 
 # --------------------------------- Get data for frontend display---------------------
-# def ma_compute_yf(stocks, ma_avg, date):
-#     stocks_list = []
-
-#     symbols_to_fetch = set(stock['ticker'] for stock in stocks)
-
-#     data = batch_api_call(symbols_to_fetch)
-
-#     for stock in stocks:
-#         stock_name = stock['name']
-#         stock_ticker = stock['ticker']
-#         current = current_price(data[stock_ticker], date)
-#         ema20 = ema(data[stock_ticker], 20, date)
-#         sma50 = sma(data[stock_ticker], 50, date)
-#         sma200 = sma(data[stock_ticker], 200, date)
-
-#         if (ma_avg == "ema20") and current > ema20 and ema20 > sma50 and sma50 > sma200:
-#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
-
-#         elif (ma_avg == "sma50") and current > sma50 and sma50 > sma200:
-#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
-
-#         elif (ma_avg == "sma200") and current > sma200:
-#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
-
-#         elif (ma_avg == "below") and current < sma200:
-#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
-    
-
-#     return stocks_list
-
 
 def ma_compute_test(stocks, date):
     stocks_lists = {}
@@ -151,3 +121,35 @@ def ma_compute_test(stocks, date):
     stocks_lists['under'] = list_under
 
     return stocks_lists
+
+
+
+# def ma_compute_yf(stocks, ma_avg, date):
+#     stocks_list = []
+
+#     symbols_to_fetch = set(stock['ticker'] for stock in stocks)
+
+#     data = batch_api_call(symbols_to_fetch)
+
+#     for stock in stocks:
+#         stock_name = stock['name']
+#         stock_ticker = stock['ticker']
+#         current = current_price(data[stock_ticker], date)
+#         ema20 = ema(data[stock_ticker], 20, date)
+#         sma50 = sma(data[stock_ticker], 50, date)
+#         sma200 = sma(data[stock_ticker], 200, date)
+
+#         if (ma_avg == "ema20") and current > ema20 and ema20 > sma50 and sma50 > sma200:
+#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
+
+#         elif (ma_avg == "sma50") and current > sma50 and sma50 > sma200:
+#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
+
+#         elif (ma_avg == "sma200") and current > sma200:
+#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
+
+#         elif (ma_avg == "below") and current < sma200:
+#             stocks_list.append(stk.Stock.get_stock_by_ticker(stock_ticker))
+    
+
+#     return stocks_list

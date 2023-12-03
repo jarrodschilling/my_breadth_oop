@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Breadth Summary
+{% endblock %}
+
+{% block main %}
+<h1 style="text-align: center;">Breadth Summary</h1>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Portfolio</th>
+                <th scope="col">Above 20EMA</th>
+                <th scope="col">Above 50SMA</th>
+                <th scope="col">Above 200SMA</th>
+                <th scope="col">Under 200SMA</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{portfolios[0].name}}</th>
+                <td>{{port_list[0]['ema20']}}</td>
+                <td>{{port_list[0]['sma50']}}</td>
+                <td>{{port_list[0]['sma200']}}</td>
+                <td>{{port_list[0]['under']}}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{portfolios[1].name}}</th>
+                <td>{{port_list[1]['ema20']}}</td>
+                <td>{{port_list[1]['sma50']}}</td>
+                <td>{{port_list[1]['sma200']}}</td>
+                <td>{{port_list[1]['under']}}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{portfolios[2].name}}</th>
+                <td>{{port_list[2]['ema20']}}</td>
+                <td>{{port_list[2]['sma50']}}</td>
+                <td>{{port_list[2]['sma200']}}</td>
+                <td>{{port_list[2]['under']}}</td>
+            </tr>
+        </tbody>
+        </table>
+</div>
+
+{% endblock %}

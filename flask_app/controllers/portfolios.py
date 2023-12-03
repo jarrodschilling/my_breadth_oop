@@ -74,21 +74,35 @@ def breadth_detail():
         return redirect('/portfolios')
 
     port_list = []
-    # for port in portfolios:
-    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'ema20', 'today'))
-    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'sma50', 'today'))
-    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'sma200', 'today'))
-    #     port_list.append(helpers.ma_compute_yf(port.stocks, 'below', 'today'))
-
     for port in portfolios:
         port_list.append(helpers.ma_compute_test(port.stocks, 'today'))
 
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
 
 
-app.route('/portfolios/summary')
-def breadth_summary():
-    pass
+@app.route('/portfolios/summary')
+def summary():
+    data = {
+        'user_id': session['user_id']
+    }
+    portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
+
+    port_list = []
+    for port in portfolios:
+        stocks_above = (helpers.ma_compute_test(port.stocks, 'today'))
+        summary_percent = {}
+        summary_percent['ema20'] = "{:.2f}%".format(100 * (len(stocks_above['ema20']) / len(port.stocks)))
+        summary_percent['sma50'] = "{:.2f}%".format(100 * (len(stocks_above['sma50']) / len(port.stocks)))
+        summary_percent['sma200'] = "{:.2f}%".format(100 * (len(stocks_above['sma200']) / len(port.stocks)))
+        summary_percent['under'] = "{:.2f}%".format(100 * (len(stocks_above['under']) / len(port.stocks)))
+        port_list.append(summary_percent)
+
+    #NEED TO THINK THROUGH HOW TO ADD A TOTAL ROW
+    return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list)
 
 
 
