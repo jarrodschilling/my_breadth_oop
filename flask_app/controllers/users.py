@@ -57,6 +57,10 @@ def login_user():
 
     return redirect('/portfolios')
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
 @app.route('/logout')
 def logout():
     session.clear()

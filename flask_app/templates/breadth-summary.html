@@ -26,6 +26,9 @@
                 <td>{{port_list[0]['sma200']}}</td>
                 <td>{{port_list[0]['under']}}</td>
             </tr>
+            {% if not portfolios[1] %}
+            <tr></tr>
+            {% else %}
             <tr>
                 <th scope="row">{{portfolios[1].name}}</th>
                 <td>{{port_list[1]['ema20']}}</td>
@@ -33,6 +36,10 @@
                 <td>{{port_list[1]['sma200']}}</td>
                 <td>{{port_list[1]['under']}}</td>
             </tr>
+            {% endif %}
+            {% if not portfolios[2] %}
+            <tr></tr>
+            {% else %}
             <tr>
                 <th scope="row">{{portfolios[2].name}}</th>
                 <td>{{port_list[2]['ema20']}}</td>
@@ -40,6 +47,7 @@
                 <td>{{port_list[2]['sma200']}}</td>
                 <td>{{port_list[2]['under']}}</td>
             </tr>
+            {% endif %}
             <tr>
                 <th scope="row">Total</th>
                 <td>{{summary_total['ema20']}}</td>

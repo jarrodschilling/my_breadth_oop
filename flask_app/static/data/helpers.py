@@ -148,7 +148,16 @@ def breadth_summary_total(portfolios):
         summary_percent[f'port{i}_under'] = stocks_above['under']
     
     # Get combined number of stocks from all portfolios
-    total_stock_count = len(portfolios[0].stocks) + len(portfolios[1].stocks) + len(portfolios[2].stocks)
+    total_stock_port1 = 0
+    total_stock_port2 = 0
+    total_stock_port3 = 0
+    if len(portfolios) > 0:
+        total_stock_port1 = len(portfolios[0].stocks)
+    if len(portfolios) > 1:
+        total_stock_port2 = len(portfolios[1].stocks)
+    if len(portfolios) > 2:
+        total_stock_port3 = len(portfolios[2].stocks)
+    total_stock_count = total_stock_port1 + total_stock_port2 + total_stock_port3
     
     # Create a dictionary that has the total(all 3 portfolios) number of stocks for each categroy
     summary_total = {}
