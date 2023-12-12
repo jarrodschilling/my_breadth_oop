@@ -64,6 +64,16 @@ class Portfolio:
                 VALUES (%(name)s, %(user_id)s);"""
         return connectToMySQL(cls.db).query_db(query, portfolio_data)
     
+    @classmethod
+    def get_portfolio_by_id(cls, data):
+        portfolio_data = {
+            'id': data
+        }
+        query = """SELECT * FROM portfolios WHERE id = %(id)s;"""
+        results = connectToMySQL(cls.db).query_db(query, portfolio_data)
+        print(results)
+        if results:
+            return cls(results[0])
 
     @classmethod
     def check_name(cls, data):

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete Stocks
+{% endblock %}
+
+{% block main %}
+    <h1 style="text-align: center;">Delete Stocks</h1>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="js-center"><strong>{{message}}</strong></p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ portfolio.name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stock in stocks %}
+                        <tr>
+                            <td>
+                                ({{ stock.ticker }}) {{ stock.name }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+{% endblock %}

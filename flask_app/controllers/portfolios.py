@@ -54,9 +54,41 @@ def new_portfolio():
     #     new_join = PortfoliosStocks.save(join_data)
 
     new_join = PortfoliosStocks.save_test(new_portfolio_id, stock_ids)
-
     
     return redirect('/portfolios')
+
+
+@app.route('/add-stock/<int:id>')
+def add_stock_page(id):
+    portfolio = Portfolio.get_portfolio_by_id(id)
+    print(portfolio)
+    return render_template('add-stock.html', portfolio=portfolio)
+
+
+@app.route('/add-stock', methods=['POST'])
+def add_stock():
+    #Combine tickers and stock_names with one API CALL????
+    tickers = Stock.clean_symbols(request.form.getlist('tickers[]'))
+    if not tickers:
+        flash('New Portfolio cannot be empty')
+        return redirect('/portfolios/new')
+    stock_names = helpers.symbol_name(tickers)
+    stock_ids = Stock.get_stock_ids(tickers, stock_names)
+
+    #Grab portfolio id from hidden form input
+    portfolio_id = request.form['portfolio_id']
+
+    #Add stocks to join table
+    new_join = PortfoliosStocks.save_test(portfolio_id, stock_ids)
+
+    return redirect('/portfolios')
+
+@app.route('/delete-stock/<int:id>')
+def delete_stock_page(id):
+    portfolio = Portfolio.get_portfolio_by_id(id)
+    stocks = PortfoliosStocks.get_stocks_in_portfolio(id)
+
+    return render_template('delete-stock.html', portfolio=portfolio, stocks=stocks)
 
 
 @app.route('/portfolios/detail')

@@ -15,7 +15,7 @@ class PortfoliosStocks:
     def save_test(cls, portfolio_id, stock_ids):
         for i in range(len(stock_ids)):
             data = {
-                "portfolio_id":  portfolio_id,
+                "portfolio_id": portfolio_id,
                 "stock_id": stock_ids[i]
             }
             query = """INSERT INTO portfolios_stocks (portfolio_id, stock_id)
@@ -28,3 +28,27 @@ class PortfoliosStocks:
         query = """INSERT INTO portfolios_stocks (portfolio_id, stock_id)
                 VALUES (%(portfolio_id)s, %(stock_id)s);"""
         return connectToMySQL(cls.db).query_db(query, data)
+    
+
+    @classmethod
+    def get_stocks_in_portfolio(cls, data):
+        portfolio_data = {
+            'portfolio_id': data
+        }
+        query = """SELECT * FROM portfolios_stocks
+                JOIN stocks ON stocks.id = portfolios_stocks.stock_id
+                WHERE portfolios_stocks.portfolio_id = %(portfolio_id)s;"""
+        results = connectToMySQL(cls.db).query_db(query, portfolio_data)
+        stocks = []
+        if results:
+            for row in results:
+                stock_data = {
+                    'id': row['id'],
+                    'name': row['name'],
+                    'ticker': row['ticker'],
+                    'created_at': row['created_at'],
+                    'updated_at': row['updated_at']
+                }
+                stocks.append(stock.Stock(stock_data))
+        
+        return stocks
