@@ -15,8 +15,9 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <div class="row">
+        <div class="row d-flex justify-content-md-center">
             <div class="col-md-4">
+                <form action="/delete-stock" method="post">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -27,12 +28,22 @@
                         {% for stock in stocks %}
                         <tr>
                             <td>
-                                ({{ stock.ticker }}) {{ stock.name }}
+                                <div class="form-check">
+                                    <input type="hidden" name="portfolio_id" value="{{portfolio.id}}">
+                                    <input class="form-check-input" type="checkbox" value= "{{ stock.ticker }}" id="symbol", name="tickers[]">
+                                    <label class="form-check-label" for="symbol">
+                                        ({{ stock.ticker }}) {{ stock.name }}
+                                    </label>
+                                </div>
+                                
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                <button type="sumbit" class="btn btn-primary mb-3 button-js" style="width: 100px;">Delete</button>
+                </form>
             </div>
+        </div>
 
 {% endblock %}

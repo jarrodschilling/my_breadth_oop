@@ -52,3 +52,19 @@ class PortfoliosStocks:
                 stocks.append(stock.Stock(stock_data))
         
         return stocks
+    
+
+    @classmethod
+    def delete_stocks(cls, portfolio_id, stock_ids):
+        for i in range(len(stock_ids)):
+            data = {
+                "portfolio_id": portfolio_id,
+                "stock_id": stock_ids[i]
+            }
+
+            query = """DELETE FROM portfolios_stocks 
+                    WHERE portfolio_id = %(portfolio_id)s
+                    AND stock_id = %(stock_id)s;"""
+            results = connectToMySQL(cls.db).query_db(query, data)
+        
+        pass

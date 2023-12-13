@@ -7,7 +7,7 @@ from flask_app import app
 from flask_app.static.data import helpers
 from flask import flash
 
-
+# ------------------- LIST OF ALL PORTFOLIOS CURRENTLY CREATED -------------------------
 @app.route('/portfolios')
 def home():
     if 'user_id' not in session:
@@ -19,6 +19,8 @@ def home():
 
     return render_template('portfolios.html', portfolios=portfolios)
 
+
+# ------------------- CREATE NEW PORTFOLIO ----------------------------------------------
 @app.route('/portfolios/new')
 def new_portfolio_page():
     data = {
@@ -28,6 +30,7 @@ def new_portfolio_page():
         flash("You already have three portfolios, please delete one to add another")
         return redirect('/portfolios')
     return render_template('create-portfolio.html')
+
 
 @app.route('/portfolios/new', methods=['POST'])
 def new_portfolio():
@@ -58,6 +61,7 @@ def new_portfolio():
     return redirect('/portfolios')
 
 
+# ------------------- ADD STOCKS TO EXISTING PORTFOLIO -------------------------------
 @app.route('/add-stock/<int:id>')
 def add_stock_page(id):
     portfolio = Portfolio.get_portfolio_by_id(id)
@@ -79,10 +83,12 @@ def add_stock():
     portfolio_id = request.form['portfolio_id']
 
     #Add stocks to join table
-    new_join = PortfoliosStocks.save_test(portfolio_id, stock_ids)
+    PortfoliosStocks.save_test(portfolio_id, stock_ids)
 
     return redirect('/portfolios')
 
+
+# ------------------- DELETE STOCKS FROM EXISTING PORTFOLIO -------------------------------
 @app.route('/delete-stock/<int:id>')
 def delete_stock_page(id):
     portfolio = Portfolio.get_portfolio_by_id(id)
@@ -91,6 +97,27 @@ def delete_stock_page(id):
     return render_template('delete-stock.html', portfolio=portfolio, stocks=stocks)
 
 
+@app.route('/delete-stock', methods=['POST'])
+def delete_stock():
+    stock_ids = []
+    tickers = request.form.getlist('tickers[]')
+    for ticker in tickers:
+        data = {
+            'ticker': ticker
+        }
+        stock_id = Stock.grab_id(data)
+        stock_ids.append(stock_id)
+    
+    #Grab portfolio id from hidden form input
+    portfolio_id = request.form['portfolio_id']
+
+    #Delete stocks from join table
+    PortfoliosStocks.delete_stocks(portfolio_id, stock_ids)
+
+    return redirect('/portfolios')
+
+
+# ------------------- USER PORTFOLIOS BREADTH DETAIL -------------------------------
 @app.route('/portfolios/detail')
 def breadth_detail():
     if 'user_id' not in session:
@@ -112,6 +139,7 @@ def breadth_detail():
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
 
 
+# ------------------- USER PORTFOLIOS BREADTH SUMMARY -------------------------------
 @app.route('/portfolios/summary')
 def summary():
     data = {
@@ -129,6 +157,7 @@ def summary():
 
     #NEED TO THINK THROUGH HOW TO ADD A TOTAL ROW
     return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
+
 
 
 
