@@ -6,7 +6,12 @@
 
 {% block main %}
 <h1 style="text-align: center;">Breadth Detail</h1>
-
+<div class="d-grid gap-2 d-md-flex justify-content-md-center">
+    <form action="/sector-detail" method="POST">
+        <button class="btn btn-primary button-js" type="submit" name="date" id="date" value="today">Current</button>
+        <button class="btn btn-primary button-js" type="submit" name="date" id="date" value="yesterday_close">Previous Close</button>
+    </form>
+</div>
 <div class="container">
     <!-- 20 Day EMA////////////////////////////////////////////////////////////////// -->
     <div class="row">

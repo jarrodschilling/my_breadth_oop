@@ -189,5 +189,5 @@ def core_index_detail():
     for port in portfolios:
         port_list.append(helpers.ma_compute_test(port.stocks, 'today'))
 
+    # <<<<<<<<< NEEDS TO BE UPDATED >>>>>>>>>>>>>>>>
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
-    pass

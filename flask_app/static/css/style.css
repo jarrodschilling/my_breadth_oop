@@ -5,3 +5,12 @@
 .faq-ul {
     text-align: left;
 }
+
+.button-js {
+    background-color: #0C7489;
+    border: 1px solid #210203;
+    border-radius: 20px;
+    color: #EDF2F4;
+    margin-bottom: 15px;
+    margin-left: 5px;
+}
