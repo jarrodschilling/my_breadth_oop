@@ -176,4 +176,18 @@ def core_index_summary():
 
 @app.route('/core/indices/detail')
 def core_index_detail():
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    #@@@@@@@@+++++++++ HARDCODE TO user_id of INDEX ADMIN +++++++++++++++++++++++@@@@@@@
+    data = {
+        'user_id': session['user_id']
+    }
+    portfolios = Portfolio.user_portfolios(data)
+
+    port_list = []
+    for port in portfolios:
+        port_list.append(helpers.ma_compute_test(port.stocks, 'today'))
+
+    return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
     pass
