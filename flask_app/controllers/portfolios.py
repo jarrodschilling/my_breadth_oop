@@ -135,8 +135,8 @@ def delete_stock():
 # ------------------- USER PORTFOLIOS BREADTH DETAIL -------------------------------
 
 # GET ROUTE
-@app.route('/portfolios/detail')
-def breadth_detail():
+@app.route('/portfolios/detail/<date>')
+def breadth_detail(date):
     if 'user_id' not in session:
         return redirect('/')
     
@@ -151,7 +151,7 @@ def breadth_detail():
 
     port_list = []
     for port in portfolios:
-        port_list.append(helpers.ma_compute_test(port.stocks, 'today'))
+        port_list.append(helpers.ma_compute_test(port.stocks, date))
 
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
     
@@ -182,8 +182,8 @@ def breadth_deatil_post():
 # ------------------- USER PORTFOLIOS BREADTH SUMMARY -------------------------------
 
 # GET ROUTE
-@app.route('/portfolios/summary')
-def summary():
+@app.route('/portfolios/summary/<date>')
+def summary(date):
     data = {
         'user_id': session['user_id']
     }
@@ -193,9 +193,9 @@ def summary():
         flash("Please create a portfolio to view detail")
         return redirect('/portfolios')
     # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
-    port_list = helpers.breadth_summary_portfolios(portfolios, 'today')
+    port_list = helpers.breadth_summary_portfolios(portfolios, date)
 
-    summary_total = helpers.breadth_summary_total(portfolios, 'today')
+    summary_total = helpers.breadth_summary_total(portfolios, date)
 
     return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
 
