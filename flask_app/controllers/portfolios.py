@@ -7,6 +7,14 @@ from flask_app import app
 from flask_app.static.data import helpers
 from flask import flash
 
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# -----------------------------------------------------------------------------------------------
+# ------------USER PORTFOLIOS CREATION + EDITING ROUTES
+# -----------------------------------------------------------------------------------------------
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 # ------------------- LIST OF ALL PORTFOLIOS CURRENTLY CREATED -------------------------
 @app.route('/portfolios')
 def home():
@@ -117,7 +125,16 @@ def delete_stock():
     return redirect('/portfolios')
 
 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# -----------------------------------------------------------------------------------------------
+# ------------USER PORTFOLIO BREADTH PAGES
+# -----------------------------------------------------------------------------------------------
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 # ------------------- USER PORTFOLIOS BREADTH DETAIL -------------------------------
+
+# GET ROUTE
 @app.route('/portfolios/detail')
 def breadth_detail():
     if 'user_id' not in session:
@@ -137,9 +154,34 @@ def breadth_detail():
         port_list.append(helpers.ma_compute_test(port.stocks, 'today'))
 
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
+    
+
+# POST ROUTE to access current AND previous day closes
+@app.route('/portfolios/detail', methods=['POST'])
+def breadth_deatil_post():
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    data = {
+        'user_id': session['user_id']
+    }
+
+    portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
+    date = request.form['date']
+    port_list = []
+    for port in portfolios:
+        port_list.append(helpers.ma_compute_test(port.stocks, date))
+
+    return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
 
 
 # ------------------- USER PORTFOLIOS BREADTH SUMMARY -------------------------------
+
+# GET ROUTE
 @app.route('/portfolios/summary')
 def summary():
     data = {
@@ -151,29 +193,79 @@ def summary():
         flash("Please create a portfolio to view detail")
         return redirect('/portfolios')
     # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
-    port_list = helpers.breadth_summary_portfolios(portfolios)
+    port_list = helpers.breadth_summary_portfolios(portfolios, 'today')
 
-    summary_total = helpers.breadth_summary_total(portfolios)
+    summary_total = helpers.breadth_summary_total(portfolios, 'today')
 
-    #NEED TO THINK THROUGH HOW TO ADD A TOTAL ROW
     return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
 
 
+# POST ROUTE to access current AND previous day closes
+@app.route('/portfolios/summary', methods=['POST'])
+def summary_post():
+    date = request.form['date']
+    data = {
+        'user_id': session['user_id']
+    }
+    portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
+    # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
+    port_list = helpers.breadth_summary_portfolios(portfolios, date)
+
+    summary_total = helpers.breadth_summary_total(portfolios, date)
+
+    return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# -----------------------------------------------------------------------------------------------
+# ------------CORE SECTOR BREADTH PAGES
+# -----------------------------------------------------------------------------------------------
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 # These will require user login but ANYONE logged in can see them all
-@app.route('/core/sectors/summary')
-def core_sector_summary():
-    pass
+# ------------------- CORE SECTORS BREADTH DETAIL -------------------------------
 
+# GET ROUTE
 @app.route('/core/sectors/detail')
 def core_sector_detail():
     pass
 
-@app.route('/core/indices/summary')
-def core_index_summary():
+
+# POST ROUTE to access current AND previous day closes
+@app.route('/core/sectors/detail', methods=['POST'])
+def core_sector_detail_post():
     pass
 
+
+# ------------------- CORE SECTOR BREADTH SUMMARY -------------------------------
+
+# GET ROUTE
+@app.route('/core/sectors/summary')
+def core_sector_summary():
+    pass
+
+
+# POST ROUTE to access current AND previous day closes
+@app.route('/core/sectors/summary', methods=['POST'])
+def core_sector_summary_post():
+    pass
+
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# -----------------------------------------------------------------------------------------------
+# ------------CORE INDEX BREADTH PAGES
+# -----------------------------------------------------------------------------------------------
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# ------------------- CORE INDEX BREADTH DETAIL -------------------------------
+
+# GET ROUTE
 @app.route('/core/indices/detail')
 def core_index_detail():
     if 'user_id' not in session:
@@ -191,3 +283,18 @@ def core_index_detail():
 
     # <<<<<<<<< NEEDS TO BE UPDATED >>>>>>>>>>>>>>>>
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
+
+
+# ------------------- CORE INDEX BREADTH SUMMARY -------------------------------
+
+# GET ROUTE
+@app.route('/core/indices/summary')
+def core_index_summary():
+    pass
+
+
+# POST ROUTE to access current AND previous day closes
+@app.route('/core/indices/summary', methods=['POST'])
+def core_index_summary_post():
+    pass
+

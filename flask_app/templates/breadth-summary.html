@@ -6,7 +6,12 @@
 
 {% block main %}
 <h1 style="text-align: center;">Breadth Summary</h1>
-
+<div class="d-grid gap-2 d-md-flex justify-content-md-center">
+    <form action="/portfolios/summary" method="post">
+        <button class="btn btn-primary button-js" type="submit" name="date" value="today">Current</button>
+        <button class="btn btn-primary button-js" type="submit" name="date" value="yesterday">Previous Close</button>
+    </form>
+</div>
 <div class="container">
     <table class="table">
         <thead>
