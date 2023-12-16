@@ -134,7 +134,6 @@ def delete_stock():
 
 # ------------------- USER PORTFOLIOS BREADTH DETAIL -------------------------------
 
-# GET ROUTE
 @app.route('/portfolios/detail/<date>')
 def breadth_detail(date):
     if 'user_id' not in session:
@@ -154,56 +153,14 @@ def breadth_detail(date):
         port_list.append(helpers.ma_compute_test(port.stocks, date))
 
     return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
-    
-
-# POST ROUTE to access current AND previous day closes
-@app.route('/portfolios/detail', methods=['POST'])
-def breadth_deatil_post():
-    if 'user_id' not in session:
-        return redirect('/')
-    
-    data = {
-        'user_id': session['user_id']
-    }
-
-    portfolios = Portfolio.user_portfolios(data)
-    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
-    if not portfolios:
-        flash("Please create a portfolio to view detail")
-        return redirect('/portfolios')
-    date = request.form['date']
-    port_list = []
-    for port in portfolios:
-        port_list.append(helpers.ma_compute_test(port.stocks, date))
-
-    return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
 
 
 # ------------------- USER PORTFOLIOS BREADTH SUMMARY -------------------------------
 
-# GET ROUTE
 @app.route('/portfolios/summary/<date>')
 def summary(date):
-    data = {
-        'user_id': session['user_id']
-    }
-    portfolios = Portfolio.user_portfolios(data)
-    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
-    if not portfolios:
-        flash("Please create a portfolio to view detail")
-        return redirect('/portfolios')
-    # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
-    port_list = helpers.breadth_summary_portfolios(portfolios, date)
-
-    summary_total = helpers.breadth_summary_total(portfolios, date)
-
-    return render_template('breadth-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
-
-
-# POST ROUTE to access current AND previous day closes
-@app.route('/portfolios/summary', methods=['POST'])
-def summary_post():
-    date = request.form['date']
+    if 'user_id' not in session:
+        return redirect('/')
     data = {
         'user_id': session['user_id']
     }
@@ -230,30 +187,48 @@ def summary_post():
 # These will require user login but ANYONE logged in can see them all
 # ------------------- CORE SECTORS BREADTH DETAIL -------------------------------
 
-# GET ROUTE
-@app.route('/core/sectors/detail')
-def core_sector_detail():
-    pass
+@app.route('/core/sectors/detail/<date>')
+def core_sector_detail(date):
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    #SECTOR admin user_id hardcoded
+    data = {
+        'user_id': 1
+    }
+    portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
 
+    port_list = []
+    for port in portfolios:
+        port_list.append(helpers.ma_compute_test(port.stocks, date))
 
-# POST ROUTE to access current AND previous day closes
-@app.route('/core/sectors/detail', methods=['POST'])
-def core_sector_detail_post():
-    pass
+    return render_template('sector-detail.html', portfolios=portfolios, port_list=port_list)
 
 
 # ------------------- CORE SECTOR BREADTH SUMMARY -------------------------------
 
-# GET ROUTE
-@app.route('/core/sectors/summary')
-def core_sector_summary():
-    pass
+@app.route('/core/sectors/summary/<date>')
+def core_sector_summary(date):
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        'user_id': 1
+    }
+    portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
+    # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
+    port_list = helpers.breadth_summary_portfolios(portfolios, date)
 
+    summary_total = helpers.breadth_summary_total(portfolios, date)
 
-# POST ROUTE to access current AND previous day closes
-@app.route('/core/sectors/summary', methods=['POST'])
-def core_sector_summary_post():
-    pass
+    return render_template('sector-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
 
 
 
@@ -265,36 +240,46 @@ def core_sector_summary_post():
 
 # ------------------- CORE INDEX BREADTH DETAIL -------------------------------
 
-# GET ROUTE
-@app.route('/core/indices/detail')
-def core_index_detail():
+@app.route('/core/indices/detail/<date>')
+def core_index_detail(date):
     if 'user_id' not in session:
         return redirect('/')
     
-    #@@@@@@@@+++++++++ HARDCODE TO user_id of INDEX ADMIN +++++++++++++++++++++++@@@@@@@
+    # INDEX admin user_id hardcoded
     data = {
-        'user_id': session['user_id']
+        'user_id': 2
     }
     portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
 
     port_list = []
     for port in portfolios:
-        port_list.append(helpers.ma_compute_test(port.stocks, 'today'))
+        port_list.append(helpers.ma_compute_test(port.stocks, date))
 
-    # <<<<<<<<< NEEDS TO BE UPDATED >>>>>>>>>>>>>>>>
-    return render_template('breadth-detail.html', portfolios=portfolios, port_list=port_list)
+    return render_template('index-detail.html', portfolios=portfolios, port_list=port_list)
 
 
 # ------------------- CORE INDEX BREADTH SUMMARY -------------------------------
 
-# GET ROUTE
-@app.route('/core/indices/summary')
-def core_index_summary():
-    pass
+@app.route('/core/indices/summary/<date>')
+def core_index_summary(date):
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        'user_id': 2
+    }
+    portfolios = Portfolio.user_portfolios(data)
+    # Check that the user has at least 1 portfolio or redirect back to portfolios home page
+    if not portfolios:
+        flash("Please create a portfolio to view detail")
+        return redirect('/portfolios')
+    # Returns a list of three portfolio dictionaries that have Keys set to each moving average and a list of Stock objects as Values
+    port_list = helpers.breadth_summary_portfolios(portfolios, date)
 
+    summary_total = helpers.breadth_summary_total(portfolios, date)
 
-# POST ROUTE to access current AND previous day closes
-@app.route('/core/indices/summary', methods=['POST'])
-def core_index_summary_post():
-    pass
+    return render_template('index-summary.html', portfolios=portfolios, port_list=port_list, summary_total=summary_total)
 
