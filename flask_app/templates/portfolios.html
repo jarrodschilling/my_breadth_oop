@@ -31,9 +31,13 @@
                     <tbody>
                         {% for i in range(portfolios[0].stocks|length) %}
                         <tr>
+                            {% if not portfolios[0].stocks[i]['ticker'] %}
+                                <td>Please Add Stocks</td>
+                            {% else %}
                             <td>
                                 ({{ portfolios[0].stocks[i]['ticker'] }}) {{ portfolios[0].stocks[i]['name'] }}
                             </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -55,9 +59,13 @@
                     <tbody>
                         {% for i in range(portfolios[1].stocks|length) %}
                         <tr>
+                            {% if not portfolios[1].stocks[i]['ticker'] %}
+                                <td>Please Add Stocks</td>
+                            {% else %}
                             <td>
                                 ({{ portfolios[1].stocks[i]['ticker'] }}) {{ portfolios[1].stocks[i]['name'] }}
                             </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -69,19 +77,25 @@
                 <div class="text-center">
                     <a href="/add-stock/{{portfolios[2].id}}" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Add</a>
                     <a href="/delete-stock/{{portfolios[2].id}}" class="btn btn-primary mb-3 button-js" style="width: 100px; margin: 5px;">Delete</a>
+                    <a href="/delete-stock/{{portfolios[2].id}}" class="btn btn-primary mb-3 button-js">Delete</a>
+                    
                 </div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">{{ portfolios[2].name }}</th>
+                            <th scope="col">{{ portfolios[2].name }} <a href="/delete-stock/{{portfolios[2].id}}" class="btn btn-primary mb-3 button-update-js">Update Name</a></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for i in range(portfolios[2].stocks|length) %}
                         <tr>
-                            <td>
-                                ({{ portfolios[2].stocks[i]['ticker'] }}) {{ portfolios[2].stocks[i]['name'] }}
-                            </td>
+                            {% if not portfolios[2].stocks[i]['ticker'] %}
+                                <td>Please Add Stocks</td>
+                            {% else %}
+                                <td>
+                                    ({{ portfolios[2].stocks[i]['ticker'] }}) {{ portfolios[2].stocks[i]['name'] }}
+                                </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>

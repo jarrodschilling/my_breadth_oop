@@ -47,7 +47,7 @@ class Portfolio:
         #         print(value.stocks[i]['ticker'])
         for value in portfolios.values():
             portfolios_list.append(value)
-        print(portfolios_list)
+
         # for i in range(len(portfolios_list[1].stocks)):
         #     print(portfolios_list[1].stocks[i]['name'])
 
