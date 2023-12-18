@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete Portfolio
+{% endblock %}
+
+{% block main %}
+    <h1 style="text-align: center;">Confirm Portfolio Removal</h1>
+
+    <div class="container">
+        <div class="row d-flex justify-content-md-center">
+            <div class="col-md-4">
+                <form class="js-center" action="/portfolios/delete" method="post">
+                    <p>Are you sure you want to delete the:</p>
+                    <p style="margin-bottom: 35px;"><strong>"<u>{{ portfolio.name }}</u>"</strong> portfolio?</p>
+                    <input type="hidden" name="portfolio_id" value="{{portfolio.id}}">
+                    <button type="sumbit" class="btn btn-primary mb-3 button-js">Delete</button>
+                </form>
+            </div>
+        </div>
+
+{% endblock %}

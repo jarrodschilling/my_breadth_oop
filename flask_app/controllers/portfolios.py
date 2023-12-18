@@ -125,6 +125,20 @@ def delete_stock():
     return redirect('/portfolios')
 
 
+# ------------------- DELETE PORTFOLIO -------------------------------
+@app.route('/portfolios/delete/<int:id>')
+def delete_portfolio_page(id):
+    if 'user_id' not in session:
+        return redirect('/')
+    portfolio = Portfolio.get_portfolio_by_id(id)
+    return render_template('delete-portfolio.html', portfolio=portfolio)
+
+
+@app.route('/portfolios/delete', methods=['POST'])
+def delete_portfolio():
+    Portfolio.delete_portfolio(request.form['portfolio_id'])
+    return redirect('/portfolios')
+
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # -----------------------------------------------------------------------------------------------
 # ------------USER PORTFOLIO BREADTH PAGES

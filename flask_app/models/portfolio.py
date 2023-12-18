@@ -65,6 +65,14 @@ class Portfolio:
         return connectToMySQL(cls.db).query_db(query, portfolio_data)
     
     @classmethod
+    def delete_portfolio(cls, data):
+        portfolio_data = {
+            'id': data
+        }
+        query = """DELETE FROM portfolios WHERE id = %(id)s;"""
+        return connectToMySQL(cls.db).query_db(query, portfolio_data)
+    
+    @classmethod
     def get_portfolio_by_id(cls, data):
         portfolio_data = {
             'id': data

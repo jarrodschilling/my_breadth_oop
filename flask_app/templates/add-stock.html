@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+<h1 style="text-align: center;">Add Stocks to <strong><u>{{portfolio.name}}</u></strong></h1>
 <h5 style="color: red; text-align: center;">{{ problem }}</h5>
 <div class="container text-center">
     <div class="row justify-content-md-center" style="margin-top: 30px;">
@@ -22,8 +23,8 @@
             <div class="row g-3 align-items-center">
             
                 <div class="text-center">
-                    <label for="portfolio_name" class="form-label"><b>Add to Portfolio</b></label>
-                    <input readonly id="portfolio_name" class="form-control" name="portfolio_name" value="{{portfolio.name}}">
+                    <!-- <label for="portfolio_name" class="form-label"><b>Add to Portfolio</b></label> -->
+                    <!-- <input readonly id="portfolio_name" class="form-control" name="portfolio_name" value="{{portfolio.name}}"> -->
                     <input type="hidden" id="portfolio_id" name="portfolio_id" value="{{portfolio.id}}">
                 </div>
                 {% for i in range(20) %}

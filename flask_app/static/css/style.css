@@ -13,16 +13,27 @@
     color: #EDF2F4;
     margin-bottom: 15px;
     margin-left: 5px;
-    width: 100px;
+    width: 120px;
+    padding: 5px;
 }
 
 .button-update-js {
-    background-color: #0C7489;
+    background-color: #0c4f89;
     border: 1px solid #210203;
     border-radius: 20px;
     color: #EDF2F4;
-    /* margin-bottom: 15px; */
-    margin-top: 10px;
-    margin-left: 25px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    /* margin-left: 10px; */
+    padding: 2px;
+    size: 20px;
     width: 130px;
 }
+
+h1 {
+    margin-bottom: 25px;
+}
+
+/* main {
+    background-color: rgba(111, 63, 0, 0.501);
+} */

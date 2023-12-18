@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <h1 style="text-align: center;">Delete Stocks</h1>
+    <h1 style="text-align: center;">Delete Stocks from <strong><u>{{portfolio.name}}</u></strong></h1>
 
     <div class="container">
         {% with messages = get_flashed_messages() %}
@@ -21,7 +21,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">{{ portfolio.name }}</th>
+                            <!-- <th scope="col">{{ portfolio.name }}</th> -->
                         </tr>
                     </thead>
                     <tbody>
