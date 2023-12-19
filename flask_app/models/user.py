@@ -61,10 +61,10 @@ class User:
             flash("Password must contain a number")
             is_valid = False
         if any(char.isalpha() for char in user['password']) == False:
-            flash("Passwords must contain a letter")
+            flash("Password must contain a letter")
             is_valid = False
         if any(char for char in user['password'] if not char.isalnum()) == False:
-            flash("Passwords must contain a special character")
+            flash("Password must contain a special character")
             is_valid = False
         # check to see if username already exists
         users = User.get_all()
