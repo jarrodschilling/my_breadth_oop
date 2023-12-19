@@ -5,9 +5,8 @@
 {% endblock %}
 
 {% block main %}
-<h5 style="color: red; text-align: center;">{{ problem }}</h5>
 <div class="container text-center">
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-md-center" style="margin-top: 30px;">
         <div class="col-md-auto"></div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -16,8 +15,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <div class="col col-lg-3" style="margin-top: 50px; border: 1px black solid; padding: 20px; padding-bottom: 30px;">
-
+        <div class="col col-lg-3" style="border: 2px black solid; padding: 20px; padding-bottom: 10px;">
         <form action="/login/user" method="post">
             <div class="row g-3 align-items-center">
             <div class="text-center">
@@ -32,7 +30,6 @@
             </div>
             </div>
         </form>
-
         </div>
     <div class="col-md-auto"></div>
     </div>
