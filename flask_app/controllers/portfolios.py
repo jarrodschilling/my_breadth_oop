@@ -31,6 +31,8 @@ def home():
 # ------------------- CREATE NEW PORTFOLIO ----------------------------------------------
 @app.route('/portfolios/new')
 def new_portfolio_page():
+    if 'user_id' not in session:
+        return redirect('/')
     data = {
         'user_id': session['user_id']
     }
@@ -42,6 +44,8 @@ def new_portfolio_page():
 
 @app.route('/portfolios/new', methods=['POST'])
 def new_portfolio():
+    if 'user_id' not in session:
+        return redirect('/')
     #Before calling API, make sure Portfolio name isn't empty and isn't a copy
     validate_portfolio_data = Portfolio.validate_portfolio_data(request.form)
     if validate_portfolio_data == False:
@@ -72,6 +76,8 @@ def new_portfolio():
 # ------------------- ADD STOCKS TO EXISTING PORTFOLIO -------------------------------
 @app.route('/add-stock/<int:id>')
 def add_stock_page(id):
+    if 'user_id' not in session:
+        return redirect('/')
     portfolio = Portfolio.get_portfolio_by_id(id)
     print(portfolio)
     return render_template('add-stock.html', portfolio=portfolio)
@@ -79,6 +85,8 @@ def add_stock_page(id):
 
 @app.route('/add-stock', methods=['POST'])
 def add_stock():
+    if 'user_id' not in session:
+        return redirect('/')
     #Combine tickers and stock_names with one API CALL????
     tickers = Stock.clean_symbols(request.form.getlist('tickers[]'))
     if not tickers:
@@ -99,6 +107,8 @@ def add_stock():
 # ------------------- DELETE STOCKS FROM EXISTING PORTFOLIO -------------------------------
 @app.route('/delete-stock/<int:id>')
 def delete_stock_page(id):
+    if 'user_id' not in session:
+        return redirect('/')
     portfolio = Portfolio.get_portfolio_by_id(id)
     stocks = PortfoliosStocks.get_stocks_in_portfolio(id)
 
@@ -107,6 +117,8 @@ def delete_stock_page(id):
 
 @app.route('/delete-stock', methods=['POST'])
 def delete_stock():
+    if 'user_id' not in session:
+        return redirect('/')
     stock_ids = []
     tickers = request.form.getlist('tickers[]')
     for ticker in tickers:
@@ -136,6 +148,8 @@ def delete_portfolio_page(id):
 
 @app.route('/portfolios/delete', methods=['POST'])
 def delete_portfolio():
+    if 'user_id' not in session:
+        return redirect('/')
     Portfolio.delete_portfolio(request.form['portfolio_id'])
     return redirect('/portfolios')
 
