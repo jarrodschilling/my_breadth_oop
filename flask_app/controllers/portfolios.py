@@ -89,9 +89,9 @@ def add_stock():
         return redirect('/')
     #Combine tickers and stock_names with one API CALL????
     tickers = Stock.clean_symbols(request.form.getlist('tickers[]'))
-    if not tickers:
-        flash('New Portfolio cannot be empty')
-        return redirect('/portfolios/new')
+    # if not tickers:
+    #     flash('New Portfolio cannot be empty')
+    #     return redirect('/portfolios/new')
     stock_names = helpers.symbol_name(tickers)
     stock_ids = Stock.get_stock_ids(tickers, stock_names)
 

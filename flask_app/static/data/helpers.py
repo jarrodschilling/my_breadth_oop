@@ -28,6 +28,8 @@ def symbol_name(tickers):
 data_cache = {}
 
 # Make batched API CALLS
+# This needs to batch better and combine with api_data_call function, bascially send a LIST of symbols to yfinance
+# Check cache in this function, then be easier to send LIST of NEEDED tickers to yfinance
 def batch_api_call(symbols):
     data = {}
     for symbol in symbols:
@@ -59,7 +61,10 @@ def current_price(data, date):
 
     return closing_price
 
+
+# +++++++++++ CHECK NOTES FOR ema and sma Calc before recording video.
 def ema(data, ema_period, date):
+    # This line isn't needed, can just target iloc of the right side of = sign
     data[f'EMA_{ema_period}'] = data['Close'].ewm(span=ema_period, adjust=False).mean()
 
     if date == "yesterday":
@@ -72,6 +77,7 @@ def ema(data, ema_period, date):
 
 # Get simple moving average using API CALL data and user inputed period
 def sma(data, sma_period, date):
+    # This line isn't needed, can just target iloc of the right side of = sign
     data[f'SMA_{sma_period}'] = data['Close'].rolling(window=sma_period).mean()
 
     if date == "yesterday":
@@ -96,6 +102,7 @@ def ma_compute_test(stocks, date):
     data = batch_api_call(symbols_to_fetch)
 
     for stock in stocks:
+        # stock_name line not needed. Grabbing stock from DB will contain name
         stock_name = stock['name']
         stock_ticker = stock['ticker']
         current = current_price(data[stock_ticker], date)
