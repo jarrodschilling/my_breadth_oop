@@ -33,13 +33,14 @@ def home():
 def new_portfolio_page():
     if 'user_id' not in session:
         return redirect('/')
+    ticker_data = session.pop('ticker_data', [])
     data = {
         'user_id': session['user_id']
     }
     if Portfolio.too_many_portfolios(data) == True:
         flash("You already have three portfolios, please delete one to add another")
         return redirect('/portfolios')
-    return render_template('create-portfolio.html')
+    return render_template('create-portfolio.html', ticker_data=ticker_data)
 
 
 @app.route('/portfolios/new', methods=['POST'])
@@ -49,6 +50,7 @@ def new_portfolio():
     #Before calling API, make sure Portfolio name isn't empty and isn't a copy
     validate_portfolio_data = Portfolio.validate_portfolio_data(request.form)
     if validate_portfolio_data == False:
+        session['ticker_data'] = request.form.getlist('tickers[]')
         return redirect('/portfolios/new')
     
     #Combine tickers and stock_names with one API CALL????
@@ -61,13 +63,6 @@ def new_portfolio():
 
     new_portfolio_id = Portfolio.save(request.form)
     
-    # for i in range(len(stock_ids)):
-    #     join_data = {
-    #         'portfolio_id': new_portfolio_id,
-    #         'stock_id': stock_ids[i]
-    #     }
-    #     new_join = PortfoliosStocks.save(join_data)
-
     new_join = PortfoliosStocks.save_test(new_portfolio_id, stock_ids)
     
     return redirect('/portfolios')

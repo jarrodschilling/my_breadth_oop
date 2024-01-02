@@ -26,11 +26,19 @@
                     <!-- <label for="register" class="form-label"><b>Create Portfolio</b></label> -->
                     <input autocomplete="off" type="text" id="name" class="form-control" placeholder="PORTFOLIO NAME" name="portfolio_name">
                 </div>
-                {% for i in range(20) %}
-                <div class="text-center">
-                    <input autocomplete="off" type="text" id="tickers" class="form-control" placeholder="ticker symbol" name="tickers[]">
-                </div>
-                {% endfor %}
+                {% if ticker_data %}
+                    {% for ticker in ticker_data %}
+                    <div class="text-center">
+                        <input autocomplete="off" type="text" id="tickers" class="form-control" placeholder="ticker symbol" name="tickers[]" value="{{ticker}}">
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    {% for i in range(20) %}
+                    <div class="text-center">
+                        <input autocomplete="off" type="text" id="tickers" class="form-control" placeholder="ticker symbol" name="tickers[]">
+                    </div>
+                    {% endfor %}
+                {% endif %}
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary mb-3 button-js" style="width: 100px;">Create</button>
                 </div>
