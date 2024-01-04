@@ -24,7 +24,7 @@ def symbol_name(tickers):
     return names
 
 # --------------------------------Getting data for moving averages--------------------
-# Global variables for caching data
+# Global dictionary for caching data
 data_cache = {}
 
 # Make batched API CALLS
@@ -62,7 +62,7 @@ def current_price(data, date):
     return closing_price
 
 
-# +++++++++++ CHECK NOTES FOR ema and sma Calc before recording video.
+# Get EMA using API CALL data and user inputed period
 def ema(data, ema_period, date):
     # This line isn't needed, can just target iloc of the right side of = sign
     data[f'EMA_{ema_period}'] = data['Close'].ewm(span=ema_period, adjust=False).mean()
