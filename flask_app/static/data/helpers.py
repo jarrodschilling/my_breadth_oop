@@ -28,8 +28,6 @@ def symbol_name(tickers):
 data_cache = {}
 
 # Make batched API CALLS
-# This needs to batch better and combine with api_data_call function, bascially send a LIST of symbols to yfinance
-# Check cache in this function, then be easier to send LIST of NEEDED tickers to yfinance
 def batch_api_call(symbols):
     data = {}
     for symbol in symbols:
@@ -64,26 +62,28 @@ def current_price(data, date):
 
 # Get EMA using API CALL data and user inputed period
 def ema(data, ema_period, date):
-    # This line isn't needed, can just target iloc of the right side of = sign
-    data[f'EMA_{ema_period}'] = data['Close'].ewm(span=ema_period, adjust=False).mean()
+    # Calculate EMA data
+    ema_data = data['Close'].ewm(span=ema_period, adjust=False).mean()
 
+    # Grab row based on date
     if date == "yesterday":
-        moving_avg = data[f'EMA_{ema_period}'].iloc[-2]
+        moving_avg = ema_data.iloc[-2]
     elif date == "today":
-        moving_avg = data[f'EMA_{ema_period}'].iloc[-1]
+        moving_avg = ema_data.iloc[-1]
 
     return moving_avg
 
 
 # Get simple moving average using API CALL data and user inputed period
 def sma(data, sma_period, date):
-    # This line isn't needed, can just target iloc of the right side of = sign
-    data[f'SMA_{sma_period}'] = data['Close'].rolling(window=sma_period).mean()
+    # Calculate SMA data
+    sma_data = data['Close'].rolling(window=sma_period).mean()
 
+    # Grab row based on date
     if date == "yesterday":
-        moving_average = data[f'SMA_{sma_period}'].iloc[-2]
+        moving_average = sma_data.iloc[-2]
     elif date == "today":
-        moving_average = data[f'SMA_{sma_period}'].iloc[-1]
+        moving_average = sma_data.iloc[-1]
 
     return moving_average
 
@@ -102,8 +102,7 @@ def ma_compute_test(stocks, date):
     data = batch_api_call(symbols_to_fetch)
 
     for stock in stocks:
-        # stock_name line not needed. Grabbing stock from DB will contain name
-        stock_name = stock['name']
+        # stock_name = stock['name']
         stock_ticker = stock['ticker']
         current = current_price(data[stock_ticker], date)
         ema20 = ema(data[stock_ticker], 20, date)
