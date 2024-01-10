@@ -5,7 +5,7 @@ import datetime
 from flask_app.models import stock as stk
 
 
-# -------------------------- Preparing stocks for database------------------------------
+# -------------------------- Preparing stocks for database ------------------------------
 def symbol_check(tickers):
     data = yf.download(tickers)
     if data.empty:
@@ -23,7 +23,7 @@ def symbol_name(tickers):
     
     return names
 
-# --------------------------------Getting data for moving averages--------------------
+# -------------------------------- Getting data for moving averages --------------------
 # Global dictionary for caching data
 data_cache = {}
 
